@@ -1,44 +1,53 @@
 import 'package:flutter/material.dart';
-import 'start_page.dart';  // Gantilah dengan path yang sesuai
+import 'start_page.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends StatelessWidget {
   @override
-  _SplashScreenState createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() {
-    super.initState();
-    // Menunda navigasi ke halaman selanjutnya selama 2 detik
+  Widget build(BuildContext context) {
+    // Delay untuk simulasi splash screen
     Future.delayed(Duration(seconds: 2), () {
+      // Navigasi ke StartPage setelah selesai splash screen
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => StartPage()),
       );
     });
-  }
 
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            width: 340,
-            height: 340,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                // Gunakan AssetImage untuk gambar lokal
-                image: AssetImage("assets/logos/sobsplash_logo.png"),
-                fit: BoxFit.fill,
-              ),
+            width: 360,
+            height: 800,
+            clipBehavior: Clip.antiAlias,
+            decoration: BoxDecoration(color: Colors.white),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  width: 340,
+                  height: 340,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("assets/logos/sobsplash_logo.png"),
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
       ),
     );
   }
+}
+
+void main() {
+  runApp(MaterialApp(
+    home: SplashScreen(),
+  ));
 }

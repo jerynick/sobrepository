@@ -1,6 +1,9 @@
+import 'package:ecasa_app/screens/start_page.dart';
 import 'package:flutter/material.dart';
-import 'screens/splash_screen.dart';  // Gantilah dengan path sesuai struktur proyek kamu
-import 'screens/start_page.dart';    // Gantilah dengan path sesuai struktur proyek kamu
+import 'package:ecasa_app/screens/splash_screen.dart';
+//import 'dashboard_page.dart';
+//import 'menu_page.dart';
+//import 'settings.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,17 +13,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'My App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData.dark().copyWith(
+        scaffoldBackgroundColor: const Color.fromARGB(255, 18, 32, 47),
       ),
-      initialRoute: '/',  // Gantilah sesuai route awal yang ingin ditampilkan
+      // Rute-rute aplikasi didefinisikan di sini
       routes: {
-        '/': (context) => SplashScreen(),
-        '/start': (context) => StartPage(),
-        // Tambahkan route lain sesuai kebutuhan
+        '/': (context) => SplashScreen(), // Rute halaman utama
+        '/start': (context) => StartPage(), // Rute mulai
+        //'/menu': (context) => MenuPage(), // Rute menu
+       // '/settings': (context) => SettingsPage(), // Rute settings
       },
+      initialRoute: '/', // Rute awal saat aplikasi dimulai
     );
   }
 }

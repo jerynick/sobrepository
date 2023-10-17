@@ -1,159 +1,162 @@
 import 'package:flutter/material.dart';
-import 'about_us.dart'; // Pastikan untuk menggantinya dengan file yang sesuai
-import 'control.dart'; // Pastikan untuk menggantinya dengan file yang sesuai
+import 'package:ecasa_app/buttom_nav.dart';
+
+class SensorData {
+  final String title;
+  final String value;
+
+  SensorData(this.title, this.value);
+}
 
 class MonitoringPage extends StatelessWidget {
+  final SensorData suhuData;
+  final SensorData kelembabanData;
+  final SensorData pintuStatusData;
+  final SensorData kecerahanLampuData;
+  final SensorData kecepatanKipasData;
+
+  MonitoringPage({
+    required this.suhuData,
+    required this.kelembabanData,
+    required this.pintuStatusData,
+    required this.kecerahanLampuData,
+    required this.kecepatanKipasData,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          // Bagian atas dengan logo aplikasi dan logo kamu
-          Container(
-            width: 360,
-            height: 200, // Sesuaikan tinggi sesuai desain Figma
-            clipBehavior: Clip.antiAlias,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(color: Colors.grey), // Atur sesuai desain Figma
-            ),
-            child: Stack(
-              children: [
-                Positioned(
-                  left: 24,
-                  top: 16,
-                  child: Container(
-                    width: 312,
-                    height: 100,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage("assets/logos/sobdash_logo.png"),
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 24,
-                  top: 116,
-                  child: Container(
-                    width: 312,
-                    height: 68,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage("assets/logos/imo_logo.png"),
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: Container(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
               width: 360,
-              clipBehavior: Clip.antiAlias,
+              height: 170,
               decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(color: Colors.grey), // Atur sesuai desain Figma
-              ),
-              child: Stack(
-                children: [
-                  // Bagian tengah dengan elemen khusus monitoring
-                  Positioned(
-                    left: 0,
-                    top: 0,
-                    child: Container(
-                      width: 360,
-                      height: 101,
-                      decoration: ShapeDecoration(
-                        color: Color(0xFF2B354A),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                    ),
+                image: DecorationImage(
+                  image: AssetImage('assets/logos/sobdash_logo.png'),
+                  fit: BoxFit.fill,
                   ),
-                  Positioned(
-                    left: 54,
-                    top: 12,
-                    child: Container(
-                      width: 40,
-                      height: 40,
-                      clipBehavior: Clip.antiAlias,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage("assets/images/monitor_img.png"),
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 44,
-                    top: 52,
-                    child: Text(
-                      'Monitoring',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                        fontFamily: 'Roboto',
-                        fontWeight: FontWeight.w700,
-                        height: 0,
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 160,
-                    top: 52,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => ControlPage()),
-                        );
-                      },
-                      child: Text(
-                        'Control',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontFamily: 'Roboto',
-                          fontWeight: FontWeight.w700,
-                          height: 0,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 256,
-                    top: 52,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => AboutUsPage()),
-                        );
-                      },
-                      child: Text(
-                        'About us',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontFamily: 'Roboto',
-                          fontWeight: FontWeight.w700,
-                          height: 0,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
               ),
             ),
-          ),
-        ],
+            Container(
+              width: 204,
+              height: 28,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/logos/imo_logo.png'),
+                  fit: BoxFit.fill,
+                  ),
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.only(left: 38, top: 224),
+              child: SizedBox(
+                width: 114,
+                height: 72,
+                child: Text(
+                  '${suhuData.value}°C',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 0, 0, 0),
+                    fontSize: 45,
+                    fontFamily: 'Arial',
+                    fontWeight: FontWeight.w900,
+                    height: 0,
+                  ),
+                ),
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.only(left: 38, top: 354),
+              child: SizedBox(
+                width: 122,
+                height: 72,
+                child: Text(
+                  '${kelembabanData.value}%',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 0, 0, 0),
+                    fontSize: 45,
+                    fontFamily: 'Arial',
+                    fontWeight: FontWeight.w900,
+                    height: 0,
+                  ),
+                ),
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.only(left: 38, top: 502),
+              child: SizedBox(
+                width: 122,
+                height: 41,
+                child: Text(
+                  pintuStatusData.value,
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 0, 0, 0),
+                    fontSize: 26,
+                    fontFamily: 'Arial',
+                    fontWeight: FontWeight.w900,
+                    height: 0,
+                  ),
+                ),
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.only(left: 44, top: 593),
+              child: SizedBox(
+                width: 122,
+                height: 72,
+                child: Text(
+                  '${kecerahanLampuData.value}%',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 0, 0, 0),
+                    fontSize: 45,
+                    fontFamily: 'Arial',
+                    fontWeight: FontWeight.w900,
+                    height: 0,
+                  ),
+                ),
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.only(left: 205, top: 625),
+              child: SizedBox(
+                width: 122,
+                height: 49,
+                child: Text(
+                  '${kecepatanKipasData.value}%',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 0, 0, 0),
+                    fontSize: 35,
+                    fontFamily: 'Arial',
+                    fontWeight: FontWeight.w900,
+                    height: 0,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
+      backgroundColor: Colors.white,
     );
   }
+}
+
+void main() {
+  runApp(
+    MaterialApp(
+      home: MonitoringPage(
+        suhuData: SensorData('Suhu', '28'),
+        kelembabanData: SensorData('Kelembaban', '60'),
+        pintuStatusData: SensorData('Pintu Terbuka', 'OPEN'),
+        kecerahanLampuData: SensorData('Kecerahan Lampu', '80'),
+        kecepatanKipasData: SensorData('Kecepatan Kipas', '50'),
+      ),
+    ),
+  );
 }
