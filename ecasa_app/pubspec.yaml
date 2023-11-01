@@ -71,6 +71,10 @@ flutter:
     - family : RubikMonoOne
       fonts:
         - asset: assets/fonts/RubikMonoOne-Regular.ttf
+    
+    - family : Times New Roman
+      fonts:
+        - asset: assets/fonts/TimesNewRoman.ttf
 
   # To add assets to your application, add an assets section, like this:
   # assets:
