@@ -3,26 +3,26 @@ import 'package:ecasa_app/buttom_nav.dart';
 import 'package:ecasa_app/screens/control.dart';
 
 void main() {
-  runApp(FanControlApp());
+  runApp(BrightCtrlApp());
 }
 
-class FanControlApp extends StatelessWidget {
+class BrightCtrlApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: FanControlPage(),
+      home: BrightCtrlPage(),
     );
   }
 }
 
-class FanControlPage extends StatefulWidget {
+class BrightCtrlPage extends StatefulWidget {
 
   @override
-  _FanControlPageState createState() => _FanControlPageState();
+  _BrightCtrlPageState createState() => _BrightCtrlPageState();
 }
 
-class _FanControlPageState extends State<FanControlPage> {
+class _BrightCtrlPageState extends State<BrightCtrlPage> {
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
@@ -76,12 +76,12 @@ class _FanControlPageState extends State<FanControlPage> {
               ),
               Positioned(
                 left: 44,
-                top: 322,
+                top: 297,
                 child: SizedBox(
                   width: 135,
-                  height: 25,
+                  height: 74,
                   child: Text(
-                    'Fan Speed',
+                    'LED Brigthness Control',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 20,
@@ -130,7 +130,7 @@ class _FanControlPageState extends State<FanControlPage> {
               ),
               Positioned(
                 left: 95,
-                top: 556,
+                top: 578,
                 child: Container(
                   width: 170,
                   height: 64,
@@ -143,14 +143,11 @@ class _FanControlPageState extends State<FanControlPage> {
                 ),
               ),
               Positioned(
-                left: 112,
-                top: 566,
-                child: SizedBox(
-                  width: 136,
-                  height: 44,
+                left: 111,
+                top: 588,
                   child: GestureDetector(
                       onTap: () {
-                      // Navigate to TempPage when the text is tapped
+                      // Navigate to ControlPage when the text is tapped
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => ControlPage()),
@@ -171,7 +168,6 @@ class _FanControlPageState extends State<FanControlPage> {
                       ),
                     ),
                   ),
-                ),
               ),
               Positioned(
                 left: 0,
@@ -182,20 +178,29 @@ class _FanControlPageState extends State<FanControlPage> {
                   decoration: BoxDecoration(color: Color(0xFFD9D9D9)),
                 ),
               ),
-          Positioned(
-            left: 23,
-            top: 14,        
-            child: Container(
-              width: 312,          
-              height: 55,          
-              decoration: BoxDecoration(          
-                image: DecorationImage(          
-                  image: AssetImage("assets/logos/sobdash_logo.png"),          
-                  fit: BoxFit.fill,          
+                Positioned(
+                  left: 0,
+                  top: -9,
+                  child: Container(
+                    width: 360,
+                    height: 94,
+                    decoration: BoxDecoration(color: Color(0xFFD9D9D9)),
+                  ),
+                ),
+                Positioned(
+                left: 23,
+                top: 14,        
+                child: Container(
+                width: 312,          
+                height: 55,          
+                decoration: BoxDecoration(          
+                  image: DecorationImage(          
+                    image: AssetImage("assets/logos/sobdash_logo.png"),          
+                    fit: BoxFit.fill,          
+                  ),          
                 ),          
               ),          
             ),          
-          ),          
             Positioned(          
               left: 78,          
               top: 45,          
@@ -214,7 +219,7 @@ class _FanControlPageState extends State<FanControlPage> {
           ),
         ),
       ],
-    ),
+      ),
         bottomNavigationBar: CustomBottomNavigationBar(
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,

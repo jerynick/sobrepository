@@ -1,9 +1,11 @@
-import 'package:ecasa_app/screens/start_page.dart';
 import 'package:flutter/material.dart';
 import 'package:ecasa_app/screens/splash_screen.dart';
-//import 'dashboard_page.dart';
-//import 'menu_page.dart';
-//import 'settings.dart';
+import 'package:ecasa_app/screens/monitoring.dart';
+import 'package:ecasa_app/screens/control.dart';
+import 'package:ecasa_app/screens/about_us.dart';
+import 'package:ecasa_app/widgets/temperature/temperature_display.dart';
+import 'package:ecasa_app/widgets/humidity/humidty_status.dart';
+import 'package:ecasa_app/widgets/door_status/door_status_display.dart';
 
 void main() {
   runApp(MyApp());
@@ -19,10 +21,13 @@ class MyApp extends StatelessWidget {
       ),
       // Rute-rute aplikasi didefinisikan di sini
       routes: {
-        '/': (context) => SplashScreen(), // Rute halaman utama
-        '/start': (context) => StartPage(), // Rute mulai
-        //'/menu': (context) => MenuPage(), // Rute menu
-       // '/settings': (context) => SettingsPage(), // Rute settings
+        '/': (context) => SplashScreen(), 
+        '/monitoring': (context) => MonitoringPage(), 
+        '/control': (context) => ControlPage(),
+        '/aboutus': (context) => AboutusPage(),  
+        '/temperature' : (context) => TempPage(),
+        '/humidity' : (context) => HumPage(),
+        '/doorstat' : (context) => DoorStatPage(),
       },
       initialRoute: '/', // Rute awal saat aplikasi dimulai
     );

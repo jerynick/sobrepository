@@ -61,6 +61,16 @@ flutter:
   assets:
     - assets/images/  #for all of images
     - assets/logos/   #for all of logos
+    - assets/fonts/
+
+  fonts:
+    - family : Goldman
+      fonts:
+        - asset: assets/fonts/Goldman-Regular.ttf
+
+    - family : RubikMonoOne
+      fonts:
+        - asset: assets/fonts/RubikMonoOne-Regular.ttf
 
   # To add assets to your application, add an assets section, like this:
   # assets:

@@ -35,13 +35,7 @@ class StartPage extends StatelessWidget {
                     // Navigate to Dashboard when button is pressed
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => MonitoringPage(
-                         suhuData: SensorData('Suhu', '28'),
-                         kelembabanData: SensorData('Kelembaban', '60'),
-                         pintuStatusData: SensorData('Pintu Terbuka', 'OPEN'),
-                         kecerahanLampuData: SensorData('Kecerahan Lampu', '80'),
-                         kecepatanKipasData: SensorData('Kecepatan Kipas', '50'),
-                      )),
+                      MaterialPageRoute(builder: (context) => MonitoringPage()),
                     );
                   },
                   child: Container(
@@ -56,8 +50,10 @@ class StartPage extends StatelessWidget {
                         'MULAI',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.none,
+                          fontFamily: "RubikMonoOne",
+                          fontSize: 33,
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
                     ),
