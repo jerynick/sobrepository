@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ecasa_app/buttom_nav.dart';
-import 'package:ecasa_app/widgets/fan_control/fan_speed_control.dart';
-import 'package:ecasa_app/widgets/brightness_control/brigthness_control.dart';
-
 
 void main() {
   runApp(ControlApp());
@@ -212,14 +209,6 @@ class _ControlPageState extends State<ControlPage> {
                 Positioned(
                   left: 250,
                   top: 399,
-                  child: GestureDetector(
-                    onTap: () {
-                      // Navigate to DoorStatPage when the text is tapped
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => FanControlPage()),
-                      );
-                    },
                   child: SizedBox(
                     width: 58,
                     height: 37,
@@ -234,19 +223,10 @@ class _ControlPageState extends State<ControlPage> {
                       ),
                     ),
                   ),
-                ),
                 ),
                 Positioned(
                   left: 250,
                   top: 511,
-                  child: GestureDetector(
-                    onTap: () {
-                      // Navigate to DoorStatPage when the text is tapped
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => BrightCtrlPage()),
-                      );
-                    },
                   child: SizedBox(
                     width: 58,
                     height: 37,
@@ -261,7 +241,6 @@ class _ControlPageState extends State<ControlPage> {
                       ),
                     ),
                   ),
-                ),
                 ),
                 Positioned(
                   left: 0,

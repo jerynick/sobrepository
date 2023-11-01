@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ecasa_app/buttom_nav.dart';
-import 'package:ecasa_app/widgets/temperature/temperature_display.dart';
-import 'package:ecasa_app/widgets/humidity/humidty_status.dart';
-import 'package:ecasa_app/widgets/door_status/door_status_display.dart';
 //import 'package:ecasa_app/widgets/fan_control/fan_speed_control.dart';
 //import 'package:ecasa_app/widgets/brightness_control/brigthness_control.dart';
 
@@ -126,14 +123,6 @@ class _MonitoringPageState extends State<MonitoringPage> {
                 Positioned(
                   left: 44,
                   top: 183,
-                  child: GestureDetector(
-                    onTap: () {
-                    // Navigate to TempPage when the text is tapped
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => TempPage()),
-                      );
-                    },
                     child: SizedBox(
                       width: 136,
                       height: 25,
@@ -149,7 +138,6 @@ class _MonitoringPageState extends State<MonitoringPage> {
                       ),
                     ),
                   ),
-                ),
                 Positioned(
                   left: 201,
                   top: 170,
@@ -174,14 +162,6 @@ class _MonitoringPageState extends State<MonitoringPage> {
                   child: SizedBox(
                     width: 92,
                     height: 25,
-                    child: GestureDetector(
-                    onTap: () {
-                    // Navigate to HumpPage when the text is tapped
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => HumPage()),
-                      );
-                    },
                     child: Text(
                       'Humidity',
                       style: TextStyle(
@@ -193,7 +173,6 @@ class _MonitoringPageState extends State<MonitoringPage> {
                       ),
                     ),
                   ),
-                ),
                 ),
                 Positioned(
                   left: 210,
@@ -356,14 +335,6 @@ class _MonitoringPageState extends State<MonitoringPage> {
                     child: SizedBox(
                       width: 92,
                       height: 25,
-                      child: GestureDetector(
-                        onTap: () {
-                        // Navigate to DoorStatPage when the text is tapped
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => DoorStatPage()),
-                          );
-                        },
                     child: Text(
                       'Door Status',
                       style: TextStyle(
@@ -377,7 +348,6 @@ class _MonitoringPageState extends State<MonitoringPage> {
                       ),
                     ),
                   ),
-                ),
                 Positioned(
                   left: 211,
                   top: 401,
