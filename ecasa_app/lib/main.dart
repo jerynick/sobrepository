@@ -3,8 +3,22 @@ import 'package:ecasa_app/screens/splash_screen.dart';
 import 'package:ecasa_app/screens/monitoring.dart';
 import 'package:ecasa_app/screens/control.dart';
 import 'package:ecasa_app/screens/about_us.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: FirebaseOptions(
+      apiKey: "AIzaSyBZu1jO2h35SpHk_3VsrYIqmcSqL65Dq_w", 
+      appId: "1:205885020375:android:5649b6f5ef6861f19a3892", 
+      messagingSenderId: "205885020375", 
+      projectId: "displaydht11",
+      storageBucket: "displaydht11.appspot.com",
+      databaseURL: "https://displaydht11-default-rtdb.firebaseio.com/"
+    ),
+  );
+
   runApp(MyApp());
 }
 

@@ -1,7 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:ecasa_app/buttom_nav.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 
-void main() {
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: FirebaseOptions(
+      apiKey: "AIzaSyBZu1jO2h35SpHk_3VsrYIqmcSqL65Dq_w", 
+      appId: "1:205885020375:android:5649b6f5ef6861f19a3892", 
+      messagingSenderId: "205885020375", 
+      projectId: "displaydht11",
+      storageBucket: "displaydht11.appspot.com",
+      databaseURL: "https://displaydht11-default-rtdb.firebaseio.com/"
+    ),
+  );
+
   runApp(ControlApp());
 }
 
@@ -26,6 +41,9 @@ class _ControlPageState extends State<ControlPage> {
   bool isFanOn = true;
   bool isLedOn = true;
 
+  final DatabaseReference ledReference =
+    FirebaseDatabase.instance.reference().child('Led');
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -42,6 +60,8 @@ class _ControlPageState extends State<ControlPage> {
     setState(() {
       isLedOn = !isLedOn;
     });
+
+    ledReference.set(isLedOn ? 'ON' : 'OFF');
   }
 
   @override

@@ -1,12 +1,26 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:ecasa_app/buttom_nav.dart';
-//import 'package:ecasa_app/widgets/fan_control/fan_speed_control.dart';
-//import 'package:ecasa_app/widgets/brightness_control/brigthness_control.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 
-void main() {
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: FirebaseOptions(
+      apiKey: "AIzaSyBZu1jO2h35SpHk_3VsrYIqmcSqL65Dq_w", 
+      appId: "1:205885020375:android:5649b6f5ef6861f19a3892", 
+      messagingSenderId: "205885020375", 
+      projectId: "displaydht11",
+      storageBucket: "displaydht11.appspot.com",
+      databaseURL: "https://displaydht11-default-rtdb.firebaseio.com/"
+    ),
+  );
+
   runApp(MonitoringApp());
 }
-
 class MonitoringApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -25,6 +39,26 @@ class MonitoringPage extends StatefulWidget {
 
 class _MonitoringPageState extends State<MonitoringPage> {
   int _selectedIndex = 0;
+
+  double temp = 0.0;
+  double hum = 0.0;
+
+@override
+void initState() {
+  super.initState();
+  DatabaseReference _firebaseRef = FirebaseDatabase.instance.reference();
+
+  _firebaseRef.onValue.listen((event) {
+    if (event.snapshot.value != null) {
+      final dynamic data = event.snapshot.value;
+      setState(() {
+        temp = (data['Suhu'] as double?) ?? 0.0;
+        hum = (data['Kelembaban'] as double?) ?? 0.0;
+      });
+    }
+  });
+}
+
 
   void _onItemTapped(int index) {
     setState(() {
@@ -195,10 +229,10 @@ class _MonitoringPageState extends State<MonitoringPage> {
                 left: 222,
                 top: 318,
                 child: SizedBox(
-                  width: 95,
+                  width: 120,
                   height: 52,
                   child: Text(
-                    '60 %',
+                    '$hum %',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 45,
@@ -298,10 +332,10 @@ class _MonitoringPageState extends State<MonitoringPage> {
                 left: 214,
                 top: 206,
                 child: SizedBox(
-                  width: 110,
+                  width: 150,
                   height: 50,
                   child: Text(
-                    '20°C',
+                    '$temp°C',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 50,
@@ -310,82 +344,6 @@ class _MonitoringPageState extends State<MonitoringPage> {
                       height: 0,
                     ),
                   ),
-                ),
-              ),
-              Positioned(
-                left: 15,
-                top: 186,
-                child: Container(
-                  width: 329,
-                  height: 91,
-                  decoration: ShapeDecoration(
-                    color: Color(0xFF2B2E4A),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 44,
-                top: 219,
-                child: SizedBox(
-                  width: 136,
-                  height: 25,
-                  child: Text(
-                    'Temperature',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontFamily: 'Times New Roman',
-                      fontWeight: FontWeight.w400,
-                      height: 0,
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 194,
-                top: 186,
-                child: Opacity(
-                  opacity: 0.50,
-                  child: Container(
-                    width: 150,
-                    height: 92,
-                    decoration: ShapeDecoration(
-                      color: Color(0xFFD9D9D9),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 214,
-                top: 206,
-                child: SizedBox(
-                  width: 110,
-                  height: 50,
-                  child: Text(
-                    '20°C',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 50,
-                      fontFamily: 'Times New Roman',
-                      fontWeight: FontWeight.w400,
-                      height: 0,
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 0,
-                top: 0,
-                child: Container(
-                  width: 360,
-                  height: 112,
-                  decoration: BoxDecoration(color: Color(0xFFD9D9D9)),
                 ),
               ),
               Positioned(

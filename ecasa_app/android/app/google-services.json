@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "205885020375",
+    "firebase_url": "https://displaydht11-default-rtdb.firebaseio.com",
+    "project_id": "displaydht11",
+    "storage_bucket": "displaydht11.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:205885020375:android:5649b6f5ef6861f19a3892",
+        "android_client_info": {
+          "package_name": "com.example.ecasa_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZu1jO2h35SpHk_3VsrYIqmcSqL65Dq_w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
