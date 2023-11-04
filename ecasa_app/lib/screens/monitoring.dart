@@ -40,6 +40,8 @@ class _MonitoringPageState extends State<MonitoringPage> {
 
   double temp = 0.0;
   double hum = 0.0;
+  double air = 0.0;
+  String gate = '';
 
 @override
 void initState() {
@@ -52,6 +54,9 @@ void initState() {
       setState(() {
         temp = (data['Suhu'] as double?) ?? 0.0;
         hum = (data['Kelembaban'] as double?) ?? 0.0;
+        air = (data['Udara'] as double?) ?? 0.0;
+        gate = (data['Gate'] as String?) ?? '';
+
       });
     }
   });
@@ -77,284 +82,483 @@ void initState() {
           child: Stack(
             children: [
               Positioned(
-                left: 15,
-                top: 411,
+                left: 0,
+                top: 35,
                 child: Container(
-                  width: 329,
-                  height: 91,
-                  decoration: ShapeDecoration(
-                    color: Color(0xFF2B2E4A),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 195,
-                top: 411,
-                child: Opacity(
-                  opacity: 0.50,
-                  child: Container(
-                    width: 149,
-                    height: 91,
-                    decoration: ShapeDecoration(
-                      color: Color(0xFFD9D9D9),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 15,
-                top: 299,
-                child: Container(
-                  width: 329,
-                  height: 91,
-                  decoration: ShapeDecoration(
-                    color: Color(0xFF2B2E4A),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 44,
-                top: 332,
-                child: SizedBox(
-                  width: 92,
-                  height: 25,
-                  child: Text(
-                    'Humidity',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontFamily: 'Times New Roman',
-                      fontWeight: FontWeight.w400,
-                      height: 0,
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 43,
-                top: 444,
-                child: SizedBox(
-                  width: 93,
-                  height: 25,
-                  child: Text(
-                    'Fan Speed',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontFamily: 'Times New Roman',
-                      fontWeight: FontWeight.w400,
-                      height: 0,
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 15,
-                top: 523,
-                child: Container(
-                  width: 329,
-                  height: 91,
-                  decoration: ShapeDecoration(
-                    color: Color(0xFF2B2E4A),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 195,
-                top: 523,
-                child: Opacity(
-                  opacity: 0.50,
-                  child: Container(
-                    width: 149,
-                    height: 91,
-                    decoration: ShapeDecoration(
-                      color: Color(0xFFD9D9D9),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 44,
-                top: 556,
-                child: SizedBox(
-                  width: 136,
-                  height: 25,
-                  child: Text(
-                    'LED Brigthness',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontFamily: 'Times New Roman',
-                      fontWeight: FontWeight.w400,
-                      height: 0,
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 195,
-                top: 299,
-                child: Opacity(
-                  opacity: 0.50,
-                  child: Container(
-                    width: 149,
-                    height: 91,
-                    decoration: ShapeDecoration(
-                      color: Color(0xFFD9D9D9),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 222,
-                top: 318,
-                child: SizedBox(
-                  width: 120,
-                  height: 52,
-                  child: Text(
-                    '$hum %',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 45,
-                      fontFamily: 'Times New Roman',
-                      fontWeight: FontWeight.w400,
-                      height: 0,
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 222,
-                top: 431,
-                child: SizedBox(
-                  width: 96,
-                  height: 52,
-                  child: Text(
-                    '50 %',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 45,
-                      fontFamily: 'Times New Roman',
-                      fontWeight: FontWeight.w400,
-                      height: 0,
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 222,
-                top: 543,
-                child: SizedBox(
-                  width: 103,
-                  height: 52,
-                  child: Text(
-                    '70 %',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 45,
-                      fontFamily: 'Times New Roman',
-                      fontWeight: FontWeight.w400,
-                      height: 0,
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 15,
-                top: 186,
-                child: Container(
-                  width: 329,
-                  height: 91,
-                  decoration: ShapeDecoration(
-                    color: Color(0xFF2B2E4A),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 44,
-                top: 219,
-                child: SizedBox(
-                  width: 136,
-                  height: 25,
-                  child: Text(
-                    'Temperature',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontFamily: 'Times New Roman',
-                      fontWeight: FontWeight.w400,
-                      height: 0,
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 194,
-                top: 186,
-                child: Opacity(
-                  opacity: 0.50,
-                  child: Container(
-                    width: 150,
-                    height: 92,
-                    decoration: ShapeDecoration(
-                      color: Color(0xFFD9D9D9),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 214,
-                top: 206,
-                child: SizedBox(
-                  width: 150,
-                  height: 50,
-                  child: Text(
-                    '$temp°C',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 50,
-                      fontFamily: 'Times New Roman',
-                      fontWeight: FontWeight.w400,
-                      height: 0,
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 24,
-                top: 42,
-                child: Container(
-                  width: 312,
-                  height: 48,
+                  width: 360,
+                  height: 165.67,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage("assets/logos/imo_logo.png"),
+                      image: AssetImage("assets/img/monitor.png"),
                       fit: BoxFit.fill,
                     ),
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 35,
+                top: 333,
+                child: Container(
+                  width: 120,
+                  height: 120,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        left: 0,
+                        top: 0,
+                        child: Container(
+                          width: 120,
+                          height: 120,
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                left: 0,
+                                top: 0,
+                                child: Container(
+                                  width: 120,
+                                  height: 120,
+                                  decoration: ShapeDecoration(
+                                    color: Color(0x59222742),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                left: 3.83,
+                                top: 3.83,
+                                child: Container(
+                                  width: 112.04,
+                                  height: 112.04,
+                                  decoration: ShapeDecoration(
+                                    color: Colors.white.withOpacity(0.699999988079071),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                left: 18.57,
+                                top: 24.47,
+                                child: Container(
+                                  width: 82.56,
+                                  height: 82.56,
+                                  decoration: ShapeDecoration(
+                                    color: Color(0xFFD9D9D9),
+                                    shape: OvalBorder(),
+                                    shadows: [
+                                      BoxShadow(
+                                        color: Color(0x3F000000),
+                                        blurRadius: 4,
+                                        offset: Offset(0, 4),
+                                        spreadRadius: 0,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                left: 28,
+                                top: 59,
+                                child: SizedBox(
+                                  width: 64,
+                                  height: 14.40,
+                                  child: Text(
+                                    '$temp °C',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 19,
+                                      fontFamily: 'Times New Roman',
+                                      fontWeight: FontWeight.w400,
+                                      height: 0,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 26,
+                        top: 9,
+                        child: SizedBox(
+                          width: 68,
+                          height: 10,
+                          child: Text(
+                            'Temperature',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 10,
+                              fontFamily: 'Times New Roman',
+                              fontWeight: FontWeight.w400,
+                              height: 0,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 205,
+                top: 333,
+                child: Container(
+                  width: 120,
+                  height: 120,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        left: 0,
+                        top: 0,
+                        child: Container(
+                          width: 120,
+                          height: 120,
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                left: 0,
+                                top: 0,
+                                child: Container(
+                                  width: 120,
+                                  height: 120,
+                                  decoration: ShapeDecoration(
+                                    color: Color(0x59222742),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                left: 3.83,
+                                top: 3.83,
+                                child: Container(
+                                  width: 112.04,
+                                  height: 112.04,
+                                  decoration: ShapeDecoration(
+                                    color: Colors.white.withOpacity(0.699999988079071),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                left: 18.57,
+                                top: 24.47,
+                                child: Container(
+                                  width: 82.56,
+                                  height: 82.56,
+                                  decoration: ShapeDecoration(
+                                    color: Color(0xFFD9D9D9),
+                                    shape: OvalBorder(),
+                                    shadows: [
+                                      BoxShadow(
+                                        color: Color(0x3F000000),
+                                        blurRadius: 4,
+                                        offset: Offset(0, 4),
+                                        spreadRadius: 0,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                left: 28,
+                                top: 59,
+                                child: SizedBox(
+                                  width: 65,
+                                  height: 14.40,
+                                  child: Text(
+                                    '$hum %',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 19,
+                                      fontFamily: 'Times New Roman',
+                                      fontWeight: FontWeight.w400,
+                                      height: 0,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 26,
+                        top: 7,
+                        child: SizedBox(
+                          width: 68,
+                          height: 13,
+                          child: Text(
+                            'Humidity',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 10,
+                              fontFamily: 'Times New Roman',
+                              fontWeight: FontWeight.w400,
+                              height: 0,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 205,
+                top: 496,
+                child: Container(
+                  width: 120,
+                  height: 120,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        left: 0,
+                        top: 0,
+                        child: Container(
+                          width: 120,
+                          height: 120,
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                left: 0,
+                                top: 0,
+                                child: Container(
+                                  width: 120,
+                                  height: 120,
+                                  decoration: ShapeDecoration(
+                                    color: Color(0x59222742),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                left: 3.83,
+                                top: 3.83,
+                                child: Container(
+                                  width: 112.04,
+                                  height: 112.04,
+                                  decoration: ShapeDecoration(
+                                    color: Colors.white.withOpacity(0.699999988079071),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                left: 18.57,
+                                top: 24.47,
+                                child: Container(
+                                  width: 82.56,
+                                  height: 82.56,
+                                  decoration: ShapeDecoration(
+                                    color: Color(0xFFD9D9D9),
+                                    shape: OvalBorder(),
+                                    shadows: [
+                                      BoxShadow(
+                                        color: Color(0x3F000000),
+                                        blurRadius: 4,
+                                        offset: Offset(0, 4),
+                                        spreadRadius: 0,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                left: 23,
+                                top: 60,
+                                child: SizedBox(
+                                  width: 74,
+                                  height: 15,
+                                  child: Text(
+                                    '$gate',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 19,
+                                      fontFamily: 'Times New Roman',
+                                      fontWeight: FontWeight.w400,
+                                      height: 0,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 26,
+                        top: 5,
+                        child: SizedBox(
+                          width: 68,
+                          height: 9,
+                          child: Text(
+                            'Gate Status',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 10,
+                              fontFamily: 'Times New Roman',
+                              fontWeight: FontWeight.w400,
+                              height: 0,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 41,
+                top: 496,
+                child: Container(
+                  width: 120,
+                  height: 120,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        left: 0,
+                        top: 0,
+                        child: Container(
+                          width: 120,
+                          height: 120,
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                left: 0,
+                                top: 0,
+                                child: Container(
+                                  width: 120,
+                                  height: 120,
+                                  decoration: ShapeDecoration(
+                                    color: Color(0x59222742),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                left: 3.83,
+                                top: 3.83,
+                                child: Container(
+                                  width: 112.04,
+                                  height: 112.04,
+                                  decoration: ShapeDecoration(
+                                    color: Colors.white.withOpacity(0.699999988079071),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                left: 18.57,
+                                top: 24.47,
+                                child: Container(
+                                  width: 82.56,
+                                  height: 82.56,
+                                  decoration: ShapeDecoration(
+                                    color: Color(0xFFD9D9D9),
+                                    shape: OvalBorder(),
+                                    shadows: [
+                                      BoxShadow(
+                                        color: Color(0x3F000000),
+                                        blurRadius: 4,
+                                        offset: Offset(0, 4),
+                                        spreadRadius: 0,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                left: 39,
+                                top: 54,
+                                child: Container(
+                                  width: 43,
+                                  height: 27,
+                                  child: Stack(
+                                    children: [
+                                      Positioned(
+                                        left: 0,
+                                        top: 0,
+                                        child: SizedBox(
+                                          width: 45,
+                                          height: 14,
+                                          child: Text(
+                                            '$air',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 19,
+                                              fontFamily: 'Times New Roman',
+                                              fontWeight: FontWeight.w400,
+                                              height: 0,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        left: 8,
+                                        top: 17,
+                                        child: Text(
+                                          'ppm',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 11,
+                                            fontFamily: 'Times New Roman',
+                                            fontWeight: FontWeight.w400,
+                                            height: 0,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 26,
+                        top: 8,
+                        child: SizedBox(
+                          width: 68,
+                          height: 12,
+                          child: Text(
+                            'Air Quality',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 10,
+                              fontFamily: 'Times New Roman',
+                              fontWeight: FontWeight.w400,
+                              height: 0,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -362,8 +566,8 @@ void initState() {
           ),
         ),
       ],
-      ),
-        bottomNavigationBar: CustomBottomNavigationBar(
+    ),
+      bottomNavigationBar: CustomBottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
       )

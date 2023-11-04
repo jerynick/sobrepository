@@ -9,23 +9,35 @@ class CustomBottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      items: const <BottomNavigationBarItem>[
+      items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.monitor),
+          icon: Image.asset(
+            'assets/icon/ic_monitor.png',
+            width: 30,
+            height: 30,
+          ),
           label: 'Monitoring',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.settings),
+          icon: Image.asset(
+            'assets/icon/ic_control.png',
+            width: 30,
+            height: 30,
+          ),
           label: 'Control',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.info),
-          label: 'About Us',
+          icon: Image.asset(
+            'assets/icon/ic_pp.png',
+            width: 30,
+            height: 30,
+          ),
+          label: 'Profile',
         ),
       ],
       currentIndex: currentIndex,
-      selectedItemColor: Color(0xFFD9D9D9),
-      backgroundColor: Color(0xFF2B2E4A),
+      selectedItemColor: Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: Color.fromARGB(255, 135, 135, 135),
       onTap: (index) {
         switch (index) {
           case 0:
@@ -38,7 +50,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
             break;
           case 2:
           // Navigasi ke halaman 'SettingsPage'
-            Navigator.pushReplacementNamed(context, '/aboutus');
+            Navigator.pushReplacementNamed(context, '/profile');
             break;
         }
       },

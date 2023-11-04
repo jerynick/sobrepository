@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ecasa_app/screens/splash_screen.dart';
 import 'package:ecasa_app/screens/monitoring.dart';
 import 'package:ecasa_app/screens/control.dart';
-import 'package:ecasa_app/screens/about_us.dart';
+import 'package:ecasa_app/screens/profile.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 
@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => SplashScreen(), 
         '/monitoring': (context) => MonitoringPage(), 
         '/control': (context) => ControlPage(),
-        '/aboutus': (context) => AboutusPage(),  
+        '/profile': (context) => ProfilePage(),  
       },
       initialRoute: '/', // Rute awal saat aplikasi dimulai
     );

@@ -15,29 +15,29 @@ class SplashScreen extends StatelessWidget {
 
     return Scaffold(
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: 360,
-            height: 800,
-            clipBehavior: Clip.antiAlias,
-            decoration: BoxDecoration(color: Colors.white),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  width: 340,
-                  height: 340,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage("assets/logos/sobsplash_logo.png"),
-                      fit: BoxFit.fill,
-                    ),
+      children: [
+        Container(
+          width: 360,
+          height: 800,
+          padding: const EdgeInsets.only(top: 35),
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(color: Colors.white),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                width: 360,
+                height: 800,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/img/splashScreen.png"),
+                    fit: BoxFit.fill,
                   ),
                 ),
-              ],
+              ),
+            ],
             ),
           ),
         ],

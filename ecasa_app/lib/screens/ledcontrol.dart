@@ -1,8 +1,8 @@
+import 'package:ecasa_app/screens/control.dart';
 import 'package:flutter/material.dart';
 import 'package:ecasa_app/buttom_nav.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:ecasa_app/screens/ledcontrol.dart';
 
 
 void main() async {
@@ -18,39 +18,31 @@ void main() async {
     ),
   );
 
-  runApp(ControlApp());
+  runApp(ledControlApp());
 }
 
-class ControlApp extends StatelessWidget {
+class ledControlApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: ControlPage(),
+      home: ledControlPage(),
     );
   }
 }
 
-class ControlPage extends StatefulWidget {
+class ledControlPage extends StatefulWidget {
 
   @override
-  _ControlPageState createState() => _ControlPageState();
+  _ledControlPageState createState() => _ledControlPageState();
 }
 
-class _ControlPageState extends State<ControlPage> {
+class _ledControlPageState extends State<ledControlPage> {
   int _selectedIndex = 0;
-  bool isFanOn = true;
-  bool isGateOpen = true;
   bool isLed1On = true;
   bool isLed2On = true;
   bool isLed3On = true;
   
-  final DatabaseReference FanReference =
-    FirebaseDatabase.instance.reference().child('Fan');
-  
-  final DatabaseReference GateReference =
-    FirebaseDatabase.instance.reference().child('Gate');
-
   final DatabaseReference led1Reference =
     FirebaseDatabase.instance.reference().child('Led_1');
 
@@ -64,22 +56,6 @@ class _ControlPageState extends State<ControlPage> {
     setState(() {
       _selectedIndex = index;
     });
-  }
-
-    void _toggleFan() {
-    setState(() {
-      isFanOn = !isFanOn;
-    });
-
-    FanReference.set(isFanOn ? 'OPEN' : 'CLOSE');
-  }
-
-    void _toggleGate() {
-    setState(() {
-      isGateOpen = !isGateOpen;
-    });
-    
-    GateReference.set(isGateOpen ? 'OPEN' : 'CLOSE');
   }
 
   void _toggleLed1() {
@@ -105,6 +81,7 @@ class _ControlPageState extends State<ControlPage> {
 
     led3Reference.set(isLed3On ? 'ON' : 'OFF');
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -198,13 +175,13 @@ class _ControlPageState extends State<ControlPage> {
                               Positioned(
                                 left: 23,
                                 top: 60,
-                                child: GestureDetector(
-                                  onDoubleTap: _toggleFan,
-                                  child: SizedBox(
-                                    width: 74,
-                                    height: 15,
+                                child: SizedBox(
+                                  width: 74,
+                                  height: 15,
+                                  child : GestureDetector(
+                                    onDoubleTap: _toggleLed1,
                                     child: Text(
-                                      isFanOn ?'ON' : 'OFF',
+                                      isLed1On ? 'ON' : 'OFF',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         color: Colors.black,
@@ -223,13 +200,13 @@ class _ControlPageState extends State<ControlPage> {
                         ),
                       ),
                       Positioned(
-                        left: 31,
-                        top: 10,
+                        left: 29,
+                        top: 8,
                         child: SizedBox(
-                          width: 58,
+                          width: 63,
                           height: 12,
                           child: Text(
-                            'Fan Control',
+                            'LED 1 Control',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.black,
@@ -247,7 +224,7 @@ class _ControlPageState extends State<ControlPage> {
                 ),
               ),
               Positioned(
-                left: 209,
+                left: 205,
                 top: 333,
                 child: Container(
                   width: 120,
@@ -316,10 +293,10 @@ class _ControlPageState extends State<ControlPage> {
                                 child: SizedBox(
                                   width: 74,
                                   height: 15,
-                                  child: GestureDetector(
-                                    onDoubleTap: _toggleGate,
+                                    child : GestureDetector(
+                                    onDoubleTap: _toggleLed2,
                                     child: Text(
-                                      isGateOpen ? 'OPEN' : 'CLOSE',
+                                      isLed2On ? 'ON' : 'OFF',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         color: Colors.black,
@@ -338,13 +315,13 @@ class _ControlPageState extends State<ControlPage> {
                         ),
                       ),
                       Positioned(
-                        left: 31,
-                        top: 10,
+                        left: 29,
+                        top: 8,
                         child: SizedBox(
-                          width: 58,
+                          width: 63,
                           height: 12,
                           child: Text(
-                            'Gate Control',
+                            'LED 2 Control',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.black,
@@ -428,17 +405,13 @@ class _ControlPageState extends State<ControlPage> {
                               Positioned(
                                 left: 23,
                                 top: 60,
-                                child : GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) => ledControlPage()),                                  
-                                    );
-                                  },
-                                  child: SizedBox(
-                                    width: 74,
-                                    height: 15,
+                                child: SizedBox(
+                                  width: 74,
+                                  height: 15,
+                                  child : GestureDetector(
+                                    onDoubleTap: _toggleLed3,
                                     child: Text(
-                                      'GO',
+                                      isLed3On ? 'ON' : 'OFF',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         color: Colors.black,
@@ -457,13 +430,13 @@ class _ControlPageState extends State<ControlPage> {
                         ),
                       ),
                       Positioned(
-                        left: 31,
-                        top: 8,
+                        left: 29,
+                        top: 9,
                         child: SizedBox(
-                          width: 58,
+                          width: 63,
                           height: 12,
                           child: Text(
-                            'LED Control',
+                            'LED 3 Control',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.black,
@@ -480,6 +453,59 @@ class _ControlPageState extends State<ControlPage> {
                   ),
                 ),
               ),
+              Positioned(
+                left: 89,
+                top: 659,
+                child: Container(
+                  width: 182,
+                  height: 36,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        left: 0,
+                        top: 0,
+                        child: Container(
+                          width: 182,
+                          height: 36,
+                          decoration: ShapeDecoration(
+                            color: Color(0xFF0D1F60),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 36,
+                        top: 10,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => ControlPage()),
+                            );
+                          },
+                          child: SizedBox(
+                            width: 111,
+                            height: 16,
+                            child: Text(
+                              'EXIT',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 17,
+                                fontFamily: 'Times New Roman',
+                                fontWeight: FontWeight.w400,
+                                height: 0,
+                                decoration: TextDecoration.none,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -488,7 +514,7 @@ class _ControlPageState extends State<ControlPage> {
     bottomNavigationBar: CustomBottomNavigationBar(
       currentIndex: _selectedIndex,
       onTap: _onItemTapped,
-    )
+    ),
     );
   }
 }
