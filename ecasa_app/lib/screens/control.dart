@@ -3,18 +3,20 @@ import 'package:ecasa_app/buttom_nav.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:ecasa_app/screens/ledcontrol.dart';
+import 'package:ecasa_app/screens/lcdcontrol.dart';
+import 'package:ecasa_app/screens/autocontroldashboard.dart';
 
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: FirebaseOptions(
-      apiKey: "AIzaSyBZu1jO2h35SpHk_3VsrYIqmcSqL65Dq_w", 
-      appId: "1:205885020375:android:5649b6f5ef6861f19a3892", 
-      messagingSenderId: "205885020375", 
-      projectId: "displaydht11",
-      storageBucket: "displaydht11.appspot.com",
-      databaseURL: "https://displaydht11-default-rtdb.firebaseio.com/"
+      apiKey: "AIzaSyA-yCEGtZUSeR3oWeZvT19MoXKNHJIE9wc", 
+      appId: "1:711821385500:android:03bab75d8c36fc3b7ca4d9", 
+      messagingSenderId: "711821385500", 
+      projectId: "ecasa-db",
+      storageBucket: "ecasa-db.appspot.com",
+      databaseURL: "https://ecasa-db-default-rtdb.firebaseio.com"
     ),
   );
 
@@ -41,9 +43,7 @@ class _ControlPageState extends State<ControlPage> {
   int _selectedIndex = 0;
   bool isFanOn = true;
   bool isGateOpen = true;
-  bool isLed1On = true;
-  bool isLed2On = true;
-  bool isLed3On = true;
+  bool isCanopiOpen = true;
   
   final DatabaseReference FanReference =
     FirebaseDatabase.instance.reference().child('Fan');
@@ -51,14 +51,63 @@ class _ControlPageState extends State<ControlPage> {
   final DatabaseReference GateReference =
     FirebaseDatabase.instance.reference().child('Gate');
 
-  final DatabaseReference led1Reference =
-    FirebaseDatabase.instance.reference().child('Led_1');
+  final DatabaseReference CanopiReference =
+    FirebaseDatabase.instance.reference().child('Canopi');
 
-  final DatabaseReference led2Reference =
-    FirebaseDatabase.instance.reference().child('Led_2');
+  @override
+  void initState() {
+    super.initState();
+    // Panggil fungsi untuk memuat nilai terakhir dari Firebase saat aplikasi dimulai
+    _loadValuesFromFirebase();
+  }
 
-  final DatabaseReference led3Reference =
-    FirebaseDatabase.instance.reference().child('Led_3');
+  void _loadValuesFromFirebase() async {
+    try {
+      DatabaseEvent fanEvent = await FanReference.once();
+      DataSnapshot fanSnapshot = fanEvent.snapshot;
+      if (fanSnapshot.value != null) {
+        setState(() {
+          isFanOn = fanSnapshot.value == 'ON';
+        });
+      }
+    } catch (error) {
+      print("Error loading Fan value from Firebase: $error");
+    }
+
+    try {
+      DatabaseEvent gateEvent = await GateReference.once();
+      DataSnapshot gateSnapshot = gateEvent.snapshot;
+      if (gateSnapshot.value != null) {
+        setState(() {
+          isGateOpen = gateSnapshot.value == 'OPEN';
+        });
+      }
+    } catch (error) {
+      print("Error loading Gate value from Firebase: $error");
+    }
+
+    try {
+      DatabaseEvent canopiEvent = await CanopiReference.once();
+      DataSnapshot canopiSnapshot = canopiEvent.snapshot;
+      if (canopiSnapshot.value != null) {
+        setState(() {
+          isCanopiOpen = canopiSnapshot.value == 'UP';
+        });
+      }
+    } catch (error) {
+      print("Error loading Canopi value from Firebase: $error");
+    }
+  }
+
+  void _sendAutoMode() {
+    DatabaseReference firebaseRef = FirebaseDatabase.instance.ref();
+    firebaseRef.child('Automatic').set('AUTO').then((_) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => AutoPage()), // Ganti ControlPage dengan nama yang sesuai
+      );
+    });
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -71,10 +120,10 @@ class _ControlPageState extends State<ControlPage> {
       isFanOn = !isFanOn;
     });
 
-    FanReference.set(isFanOn ? 'OPEN' : 'CLOSE');
+    FanReference.set(isFanOn ? 'ON' : 'OFF');
   }
 
-    void _toggleGate() {
+  void _toggleGate() {
     setState(() {
       isGateOpen = !isGateOpen;
     });
@@ -82,33 +131,18 @@ class _ControlPageState extends State<ControlPage> {
     GateReference.set(isGateOpen ? 'OPEN' : 'CLOSE');
   }
 
-  void _toggleLed1() {
+  void _toggleCanopi() {
     setState(() {
-      isLed1On = !isLed1On;
+      isCanopiOpen = !isCanopiOpen;
     });
-
-    led1Reference.set(isLed1On ? 'ON' : 'OFF');
+    
+    CanopiReference.set(isCanopiOpen ? 'UP' : 'DOWN');
   }
 
-  void _toggleLed2() {
-    setState(() {
-      isLed2On = !isLed2On;
-    });
-
-    led2Reference.set(isLed1On ? 'ON' : 'OFF');
-  }
-
-  void _toggleLed3() {
-    setState(() {
-      isLed3On = !isLed3On;
-    });
-
-    led3Reference.set(isLed3On ? 'ON' : 'OFF');
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    body : Column(
+    body: Column(
       children: [
         Container(
           width: 360,
@@ -126,14 +160,14 @@ class _ControlPageState extends State<ControlPage> {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage("assets/img/control.png"),
-                      fit: BoxFit.fill,
+                      fit: BoxFit.contain,
                     ),
                   ),
                 ),
               ),
               Positioned(
-                left: 35,
-                top: 333,
+                left: 33,
+                top: 339,
                 child: Container(
                   width: 120,
                   height: 120,
@@ -196,27 +230,27 @@ class _ControlPageState extends State<ControlPage> {
                                 ),
                               ),
                               Positioned(
-                                left: 23,
-                                top: 60,
-                                child: GestureDetector(
+                                left: 36,
+                                top: 58,
+                                child: GestureDetector (
                                   onDoubleTap: _toggleFan,
-                                  child: SizedBox(
-                                    width: 74,
-                                    height: 15,
-                                    child: Text(
-                                      isFanOn ?'ON' : 'OFF',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 19,
-                                        fontFamily: 'Times New Roman',
-                                        fontWeight: FontWeight.w400,
-                                        height: 0,
-                                        decoration: TextDecoration.none,
-                                      ),
+                                child: SizedBox(
+                                  width: 48,
+                                  height: 18,
+                                  child: Text(
+                                    isFanOn ?'ON' : 'OFF',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 19,
+                                      fontFamily: 'Times New Roman',
+                                      fontWeight: FontWeight.w400,
+                                      height: 0,
+                                      decoration: TextDecoration.none,
                                     ),
                                   ),
                                 ),
+                              ),
                               ),
                             ],
                           ),
@@ -247,8 +281,8 @@ class _ControlPageState extends State<ControlPage> {
                 ),
               ),
               Positioned(
-                left: 209,
-                top: 333,
+                left: 207,
+                top: 339,
                 child: Container(
                   width: 120,
                   height: 120,
@@ -312,26 +346,26 @@ class _ControlPageState extends State<ControlPage> {
                               ),
                               Positioned(
                                 left: 23,
-                                top: 60,
+                                top: 58,
+                                child: GestureDetector (
+                                  onDoubleTap: _toggleGate,
                                 child: SizedBox(
                                   width: 74,
-                                  height: 15,
-                                  child: GestureDetector(
-                                    onDoubleTap: _toggleGate,
-                                    child: Text(
-                                      isGateOpen ? 'OPEN' : 'CLOSE',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 19,
-                                        fontFamily: 'Times New Roman',
-                                        fontWeight: FontWeight.w400,
-                                        height: 0,
-                                        decoration: TextDecoration.none,
-                                      ),
+                                  height: 17,
+                                  child: Text(
+                                    isGateOpen ?'OPEN' : 'CLOSE',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 19,
+                                      fontFamily: 'Times New Roman',
+                                      fontWeight: FontWeight.w400,
+                                      height: 0,
+                                      decoration: TextDecoration.none
                                     ),
                                   ),
                                 ),
+                              ),
                               ),
                             ],
                           ),
@@ -352,7 +386,7 @@ class _ControlPageState extends State<ControlPage> {
                               fontFamily: 'Times New Roman',
                               fontWeight: FontWeight.w400,
                               height: 0,
-                              decoration: TextDecoration.none,
+                              decoration: TextDecoration.none
                             ),
                           ),
                         ),
@@ -362,8 +396,8 @@ class _ControlPageState extends State<ControlPage> {
                 ),
               ),
               Positioned(
-                left: 120,
-                top: 496,
+                left: 118,
+                top: 502,
                 child: Container(
                   width: 120,
                   height: 120,
@@ -427,27 +461,81 @@ class _ControlPageState extends State<ControlPage> {
                               ),
                               Positioned(
                                 left: 23,
-                                top: 60,
-                                child : GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) => ledControlPage()),                                  
-                                    );
-                                  },
-                                  child: SizedBox(
-                                    width: 74,
-                                    height: 15,
-                                    child: Text(
-                                      'GO',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 19,
-                                        fontFamily: 'Times New Roman',
-                                        fontWeight: FontWeight.w400,
-                                        height: 0,
-                                        decoration: TextDecoration.none,
-                                      ),
+                                top: 58,
+                                child: GestureDetector(
+                                  onDoubleTap: _toggleCanopi,
+                                child: SizedBox(
+                                  width: 74,
+                                  height: 17,
+                                  child: Text(
+                                    isCanopiOpen ?'UP' : 'DOWN',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 19,
+                                      fontFamily: 'Times New Roman',
+                                      fontWeight: FontWeight.w400,
+                                      height: 0,
+                                      decoration: TextDecoration.none,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 27,
+                        top: 8,
+                        child: SizedBox(
+                          width: 67,
+                          height: 12,
+                          child: Text(
+                            'Canopi Control',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 10,
+                              fontFamily: 'Times New Roman',
+                              fontWeight: FontWeight.w400,
+                              height: 0,
+                              decoration: TextDecoration.none,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 33,
+                top: 648,
+                child: Container(
+                  width: 120,
+                  height: 49,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        left: 0,
+                        top: 16,
+                        child: Container(
+                          width: 120,
+                          height: 33,
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                left: 0,
+                                top: 0,
+                                child: Container(
+                                  width: 120,
+                                  height: 33,
+                                  decoration: ShapeDecoration(
+                                    color: Color(0x59222742),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
                                     ),
                                   ),
                                 ),
@@ -457,10 +545,37 @@ class _ControlPageState extends State<ControlPage> {
                         ),
                       ),
                       Positioned(
-                        left: 31,
-                        top: 8,
+                        left: 46,
+                        top: 24,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => ledControlPage()),
+                            );
+                          },
                         child: SizedBox(
-                          width: 58,
+                          width: 28,
+                          height: 17,
+                          child: Text(
+                            'GO',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 19,
+                              fontFamily: 'Times New Roman',
+                              fontWeight: FontWeight.w400,
+                              height: 0,
+                              decoration: TextDecoration.none,
+                            ),
+                          ),
+                        ),
+                      ),
+                      ),
+                      Positioned(
+                        left: 27,
+                        top: 0,
+                        child: SizedBox(
+                          width: 67,
                           height: 12,
                           child: Text(
                             'LED Control',
@@ -480,6 +595,166 @@ class _ControlPageState extends State<ControlPage> {
                   ),
                 ),
               ),
+              Positioned(
+                left: 207,
+                top: 648,
+                child: Container(
+                  width: 120,
+                  height: 49,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        left: 0,
+                        top: 16,
+                        child: Container(
+                          width: 120,
+                          height: 33,
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                left: 0,
+                                top: 0,
+                                child: Container(
+                                  width: 120,
+                                  height: 33,
+                                  decoration: ShapeDecoration(
+                                    color: Color(0x59222742),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 46,
+                        top: 24,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(context, 
+                              MaterialPageRoute(builder: (context) => LCDControlPage()),
+                            );
+                          },
+                        child: SizedBox(
+                          width: 28,
+                          height: 17,
+                          child: Text(
+                            'GO',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 19,
+                              fontFamily: 'Times New Roman',
+                              fontWeight: FontWeight.w400,
+                              height: 0,
+                              decoration: TextDecoration.none,
+                            ),
+                          ),
+                        ),
+                      ),
+                      ),
+                      Positioned(
+                        left: 27,
+                        top: 0,
+                        child: SizedBox(
+                          width: 67,
+                          height: 12,
+                          child: Text(
+                            'LCD Custom',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 10,
+                              fontFamily: 'Times New Roman',
+                              fontWeight: FontWeight.w400,
+                              height: 0,
+                              decoration: TextDecoration.none,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 33,
+                top: 248,
+                child: Container(
+                  width: 290,
+                  height: 65,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        left: 0,
+                        top: 0,
+                        child: Container(
+                          width: 290,
+                          height: 65,
+                          decoration: ShapeDecoration(
+                            color: Color(0xFFD9D9D9),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 200,
+                        top: 0,
+                        child: Container(
+                          width: 90,
+                          height: 65,
+                          decoration: ShapeDecoration(
+                            color: Color(0xFF0D1F60),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 32,
+                        top: 21,
+                        child: Text(
+                          'Autonomos Mode',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontFamily: 'Times New Roman',
+                            fontWeight: FontWeight.w400,
+                            height: 0,
+                            decoration: TextDecoration.none
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 230,
+                        top: 21,
+                        child: GestureDetector(
+                          onTap: _sendAutoMode,
+                        child: Text(
+                          'GO',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontFamily: 'Times New Roman',
+                            fontWeight: FontWeight.w400,
+                            height: 0,
+                            decoration: TextDecoration.none,
+                          ),
+                        ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -492,6 +767,4 @@ class _ControlPageState extends State<ControlPage> {
     );
   }
 }
-
-
 

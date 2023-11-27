@@ -52,6 +52,38 @@ class _ledControlPageState extends State<ledControlPage> {
   final DatabaseReference led3Reference =
     FirebaseDatabase.instance.reference().child('Led_3');
 
+  @override
+  void initState() {
+    super.initState();
+    // Panggil fungsi untuk memuat nilai terakhir dari Firebase saat aplikasi dimulai
+    _loadValuesFromFirebase();
+  }
+
+void _loadValuesFromFirebase() async {
+  try {
+    DatabaseEvent led1Event = await led1Reference.once();
+    DataSnapshot led1Snapshot = led1Event.snapshot;
+    if (led1Snapshot.value != null) {
+      setState(() {
+        isLed1On = led1Snapshot.value == 'ON';
+      });
+    }
+  } catch (error) {
+    print("Error loading LED 1 value from Firebase: $error");
+  }
+
+  try {
+    DatabaseEvent led2Event = await led2Reference.once();
+    DataSnapshot led2Snapshot = led2Event.snapshot;
+    if (led2Snapshot.value != null) {
+      setState(() {
+        isLed2On = led2Snapshot.value == 'ON';
+      });
+    }
+  } catch (error) {
+    print("Error loading LED 2 value from Firebase: $error");
+  }
+}
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -103,7 +135,7 @@ class _ledControlPageState extends State<ledControlPage> {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage("assets/img/control.png"),
-                      fit: BoxFit.fill,
+                      fit: BoxFit.contain,
                     ),
                   ),
                 ),

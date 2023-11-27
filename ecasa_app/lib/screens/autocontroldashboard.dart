@@ -2,53 +2,46 @@ import 'package:flutter/material.dart';
 import 'package:ecasa_app/buttom_nav.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:ecasa_app/screens/control.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: FirebaseOptions(
-      apiKey: 'AIzaSyA-yCEGtZUSeR3oWeZvT19MoXKNHJIE9wc',
-      appId: '1:711821385500:android:03bab75d8c36fc3b7ca4d9',
-      messagingSenderId: '711821385500',
-      projectId: 'ecasa-db',
-      databaseURL: 'https://ecasa-db-default-rtdb.firebaseio.com',
-      storageBucket: 'ecasa-db.appspot.com',
+      apiKey: "AIzaSyA-yCEGtZUSeR3oWeZvT19MoXKNHJIE9wc", 
+      appId: "1:711821385500:android:03bab75d8c36fc3b7ca4d9", 
+      messagingSenderId: "711821385500", 
+      projectId: "ecasa-db",
+      storageBucket: "ecasa-db.appspot.com",
+      databaseURL: "https://ecasa-db-default-rtdb.firebaseio.com"
     ),
   );
 
-  runApp(MonitoringApp());
+  runApp(AutoApp());
 }
-class MonitoringApp extends StatelessWidget {
+
+class AutoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: MonitoringPage(),
+      home: AutoPage(),
     );
   }
 }
 
-enum WeatherStatus {
-    hujan,
-    mendung,
-    cerah,
-    unknown,
-}
-
-class MonitoringPage extends StatefulWidget {
+class AutoPage extends StatefulWidget {
 
   @override
-  _MonitoringPageState createState() => _MonitoringPageState();
+  _AutoPageState createState() => _AutoPageState();
 }
 
-class _MonitoringPageState extends State<MonitoringPage> {
+class _AutoPageState extends State<AutoPage> {
   int _selectedIndex = 0;
 
-  double temp = 29.4;
-  double hum = 0.0;
-  double air = 390.1;
-  String gate = 'CLOSE';
-  String weather = "Rainy";
+  String fanC = 'A/n';
+  String gateC = 'A/n'; 
+  String canopiC = 'A/n';
 
 @override
 void initState() {
@@ -60,11 +53,9 @@ void initState() {
         if (event.snapshot.value != null) {
           final dynamic data = event.snapshot.value;
           setState(() {
-            temp = (data['Suhu'] as double?) ?? 0.0;
-            hum = (data['Kelembaban'] as double?) ?? 0.0;
-            air = (data['Udara'] as double?) ?? 0.0;
-            gate = (data['GateStatus'] as String?) ?? '';
-            weather = (data['RainStatus'] as String?) ?? '';
+            fanC = (data['Fan'] as String?) ?? '';
+            gateC = (data['Gate'] as String?) ?? '';
+            canopiC = (data['Canopi'] as String?) ?? '';
           });
         }
       } catch (e) {
@@ -73,6 +64,15 @@ void initState() {
     });
   }
 
+  void _sendManualMode() {
+    DatabaseReference firebaseRef = FirebaseDatabase.instance.ref();
+    firebaseRef.child('Automatic').set('MANUAL').then((_) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ControlPage()), // Ganti ControlPage dengan nama yang sesuai
+      );
+    });
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -82,7 +82,7 @@ void initState() {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold( 
+    return Scaffold(
     body: Column(
       children: [
         Container(
@@ -100,15 +100,15 @@ void initState() {
                   height: 165.67,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage("assets/img/monitor.png"),
+                      image: AssetImage("assets/img/automode.png"),
                       fit: BoxFit.contain,
                     ),
                   ),
                 ),
               ),
               Positioned(
-                left: 35,
-                top: 369,
+                left: 33,
+                top: 339,
                 child: Container(
                   width: 120,
                   height: 120,
@@ -171,13 +171,13 @@ void initState() {
                                 ),
                               ),
                               Positioned(
-                                left: 28,
-                                top: 59,
+                                left: 36,
+                                top: 58,
                                 child: SizedBox(
-                                  width: 64,
-                                  height: 14.40,
+                                  width: 48,
+                                  height: 18,
                                   child: Text(
-                                    '$temp°C',
+                                    "$fanC",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: Colors.black,
@@ -185,6 +185,7 @@ void initState() {
                                       fontFamily: 'Times New Roman',
                                       fontWeight: FontWeight.w400,
                                       height: 0,
+                                      decoration: TextDecoration.none,
                                     ),
                                   ),
                                 ),
@@ -194,13 +195,13 @@ void initState() {
                         ),
                       ),
                       Positioned(
-                        left: 26,
-                        top: 9,
+                        left: 31,
+                        top: 10,
                         child: SizedBox(
-                          width: 68,
-                          height: 10,
+                          width: 58,
+                          height: 12,
                           child: Text(
-                            'Temperature',
+                            'Fan Control',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.black,
@@ -208,6 +209,7 @@ void initState() {
                               fontFamily: 'Times New Roman',
                               fontWeight: FontWeight.w400,
                               height: 0,
+                              decoration: TextDecoration.none,
                             ),
                           ),
                         ),
@@ -217,118 +219,8 @@ void initState() {
                 ),
               ),
               Positioned(
-                left: 205,
-                top: 369,
-                child: Container(
-                  width: 120,
-                  height: 120,
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        left: 0,
-                        top: 0,
-                        child: Container(
-                          width: 120,
-                          height: 120,
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                left: 0,
-                                top: 0,
-                                child: Container(
-                                  width: 120,
-                                  height: 120,
-                                  decoration: ShapeDecoration(
-                                    color: Color(0x59222742),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                left: 3.83,
-                                top: 3.83,
-                                child: Container(
-                                  width: 112.04,
-                                  height: 112.04,
-                                  decoration: ShapeDecoration(
-                                    color: Colors.white.withOpacity(0.699999988079071),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                left: 18.57,
-                                top: 24.47,
-                                child: Container(
-                                  width: 82.56,
-                                  height: 82.56,
-                                  decoration: ShapeDecoration(
-                                    color: Color(0xFFD9D9D9),
-                                    shape: OvalBorder(),
-                                    shadows: [
-                                      BoxShadow(
-                                        color: Color(0x3F000000),
-                                        blurRadius: 4,
-                                        offset: Offset(0, 4),
-                                        spreadRadius: 0,
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                left: 28,
-                                top: 59,
-                                child: SizedBox(
-                                  width: 65,
-                                  height: 14.40,
-                                  child: Text(
-                                    '$hum%',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 19,
-                                      fontFamily: 'Times New Roman',
-                                      fontWeight: FontWeight.w400,
-                                      height: 0,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        left: 26,
-                        top: 7,
-                        child: SizedBox(
-                          width: 68,
-                          height: 13,
-                          child: Text(
-                            'Humidity',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 10,
-                              fontFamily: 'Times New Roman',
-                              fontWeight: FontWeight.w400,
-                              height: 0,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 205,
-                top: 532,
+                left: 207,
+                top: 339,
                 child: Container(
                   width: 120,
                   height: 120,
@@ -392,12 +284,12 @@ void initState() {
                               ),
                               Positioned(
                                 left: 23,
-                                top: 60,
+                                top: 58,
                                 child: SizedBox(
                                   width: 74,
-                                  height: 15,
+                                  height: 17,
                                   child: Text(
-                                    '$gate',
+                                    "$gateC",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: Colors.black,
@@ -405,6 +297,7 @@ void initState() {
                                       fontFamily: 'Times New Roman',
                                       fontWeight: FontWeight.w400,
                                       height: 0,
+                                      decoration: TextDecoration.none
                                     ),
                                   ),
                                 ),
@@ -414,13 +307,13 @@ void initState() {
                         ),
                       ),
                       Positioned(
-                        left: 26,
-                        top: 13,
+                        left: 31,
+                        top: 10,
                         child: SizedBox(
-                          width: 68,
-                          height: 13,
+                          width: 58,
+                          height: 12,
                           child: Text(
-                            'Gate Status',
+                            'Gate Control',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.black,
@@ -428,6 +321,7 @@ void initState() {
                               fontFamily: 'Times New Roman',
                               fontWeight: FontWeight.w400,
                               height: 0,
+                              decoration: TextDecoration.none
                             ),
                           ),
                         ),
@@ -437,8 +331,8 @@ void initState() {
                 ),
               ),
               Positioned(
-                left: 41,
-                top: 532,
+                left: 118,
+                top: 502,
                 child: Container(
                   width: 120,
                   height: 120,
@@ -450,94 +344,88 @@ void initState() {
                         child: Container(
                           width: 120,
                           height: 120,
-                          decoration: ShapeDecoration(
-                            color: Color(0x59222742),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        left: 3.83,
-                        top: 3.83,
-                        child: Container(
-                          width: 112.04,
-                          height: 112.04,
-                          decoration: ShapeDecoration(
-                            color: Colors.white.withOpacity(0.699999988079071),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        left: 18.57,
-                        top: 24.47,
-                        child: Container(
-                          width: 82.56,
-                          height: 82.56,
-                          decoration: ShapeDecoration(
-                            color: Color(0xFFD9D9D9),
-                            shape: OvalBorder(),
-                            shadows: [
-                              BoxShadow(
-                                color: Color(0x3F000000),
-                                blurRadius: 4,
-                                offset: Offset(0, 4),
-                                spreadRadius: 0,
-                              )
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                left: 0,
+                                top: 0,
+                                child: Container(
+                                  width: 120,
+                                  height: 120,
+                                  decoration: ShapeDecoration(
+                                    color: Color(0x59222742),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                left: 3.83,
+                                top: 3.83,
+                                child: Container(
+                                  width: 112.04,
+                                  height: 112.04,
+                                  decoration: ShapeDecoration(
+                                    color: Colors.white.withOpacity(0.699999988079071),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                left: 18.57,
+                                top: 24.47,
+                                child: Container(
+                                  width: 82.56,
+                                  height: 82.56,
+                                  decoration: ShapeDecoration(
+                                    color: Color(0xFFD9D9D9),
+                                    shape: OvalBorder(),
+                                    shadows: [
+                                      BoxShadow(
+                                        color: Color(0x3F000000),
+                                        blurRadius: 4,
+                                        offset: Offset(0, 4),
+                                        spreadRadius: 0,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                left: 23,
+                                top: 58,
+                                child: SizedBox(
+                                  width: 74,
+                                  height: 17,
+                                  child: Text(
+                                    "$canopiC",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 19,
+                                      fontFamily: 'Times New Roman',
+                                      fontWeight: FontWeight.w400,
+                                      height: 0,
+                                      decoration: TextDecoration.none,
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ),
                       ),
                       Positioned(
-                        left: 36,
-                        top: 54,
-                        child: SizedBox(
-                          width: 48,
-                          height: 14,
-                          child: Text(
-                            '$air',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 19,
-                              fontFamily: 'Times New Roman',
-                              fontWeight: FontWeight.w400,
-                              height: 0,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        left: 50,
-                        top: 70,
-                        child: SizedBox(
-                          width: 20,
-                          height: 15,
-                          child: Text(
-                            'ppm',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 11,
-                              fontFamily: 'Times New Roman',
-                              fontWeight: FontWeight.w400,
-                              height: 0,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        left: 26,
+                        left: 27,
                         top: 8,
                         child: SizedBox(
-                          width: 68,
+                          width: 67,
                           height: 12,
                           child: Text(
-                            'Air Quality',
+                            'Canopi Control',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.black,
@@ -545,6 +433,7 @@ void initState() {
                               fontFamily: 'Times New Roman',
                               fontWeight: FontWeight.w400,
                               height: 0,
+                              decoration: TextDecoration.none,
                             ),
                           ),
                         ),
@@ -554,8 +443,8 @@ void initState() {
                 ),
               ),
               Positioned(
-                left: 35,
-                top: 286,
+                left: 33,
+                top: 248,
                 child: Container(
                   width: 290,
                   height: 65,
@@ -576,32 +465,13 @@ void initState() {
                         ),
                       ),
                       Positioned(
-                        left: 127,
-                        top: 26,
-                        child: SizedBox(
-                          width: 124,
-                          height: 17,
-                          child: Text(
-                            '$weather',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 19,
-                              fontFamily: 'Times New Roman',
-                              fontWeight: FontWeight.w400,
-                              height: 0,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        left: 7,
-                        top: 4,
+                        left: 200,
+                        top: 0,
                         child: Container(
-                          width: 94,
-                          height: 57,
+                          width: 90,
+                          height: 65,
                           decoration: ShapeDecoration(
-                            color: Color(0xFFFFFBFB),
+                            color: Color(0xFF0D1F60),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
                             ),
@@ -609,18 +479,38 @@ void initState() {
                         ),
                       ),
                       Positioned(
-                        left: 28,
-                        top: 11,
-                        child: Container(
-                          width: 53,
-                          height: 43,
-                          decoration: ShapeDecoration(
+                        left: 32,
+                        top: 21,
+                        child: Text(
+                          'Manual Mode',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontFamily: 'Times New Roman',
+                            fontWeight: FontWeight.w400,
+                            height: 0,
+                            decoration: TextDecoration.none
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 230,
+                        top: 21,
+                        child: GestureDetector(
+                          onTap: _sendManualMode,
+                        child: Text(
+                          'GO',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
                             color: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
+                            fontSize: 20,
+                            fontFamily: 'Times New Roman',
+                            fontWeight: FontWeight.w400,
+                            height: 0,
+                            decoration: TextDecoration.none,
                           ),
-                        child: _getWeatherIcon(weather),
+                        ),
                         ),
                       ),
                     ],
@@ -638,17 +528,5 @@ void initState() {
     )
     );
   }
+}
 
-  Widget _getWeatherIcon(String weatherStatus) {
-    switch (weatherStatus.toLowerCase()) {
-    case 'sunny':
-      return Icon(Icons.wb_sunny, color: Colors.yellow, size: 40); // Sunny weather icon
-    case 'rainy':
-      return Icon(Icons.beach_access, color: Colors.blue, size: 40); // Rainy weather icon
-    case 'cloudy':
-      return Icon(Icons.cloud, color: Colors.grey, size: 40); // Cloudy weather icon
-    default:
-      return Icon(Icons.error, color: Colors.red, size: 40); // Default or error icon
-  }
-}
-}

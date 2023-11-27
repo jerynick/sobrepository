@@ -1,5 +1,5 @@
+import 'package:ecasa_app/screens/login.dart';
 import 'package:flutter/material.dart';
-import 'start_page.dart';
 
 class SplashScreen extends StatelessWidget {
   @override
@@ -9,7 +9,7 @@ class SplashScreen extends StatelessWidget {
       // Navigasi ke StartPage setelah selesai splash screen
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => StartPage()),
+        MaterialPageRoute(builder: (context) => LoginPage()),
       );
     });
 
@@ -33,7 +33,7 @@ class SplashScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage("assets/img/splashScreen.png"),
-                    fit: BoxFit.fill,
+                    fit: BoxFit.contain,
                   ),
                 ),
               ),

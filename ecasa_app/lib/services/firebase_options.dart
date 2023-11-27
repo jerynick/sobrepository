@@ -23,9 +23,15 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        return ios;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for ios - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -44,42 +50,22 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCzospX1B1H_7KiJfm5mTWC1KgEL1aefZs',
-    appId: '1:205885020375:web:aa8f56f9e0be773b9a3892',
-    messagingSenderId: '205885020375',
-    projectId: 'displaydht11',
-    authDomain: 'displaydht11.firebaseapp.com',
-    databaseURL: 'https://displaydht11-default-rtdb.firebaseio.com',
-    storageBucket: 'displaydht11.appspot.com',
-    measurementId: 'G-3K9NSMGYBY',
+    apiKey: 'AIzaSyAdRcS1zemVatVEHyGc7daUIdxA8yOhCN4',
+    appId: '1:711821385500:web:69d5f7ad12a789267ca4d9',
+    messagingSenderId: '711821385500',
+    projectId: 'ecasa-db',
+    authDomain: 'ecasa-db.firebaseapp.com',
+    databaseURL: 'https://ecasa-db-default-rtdb.firebaseio.com',
+    storageBucket: 'ecasa-db.appspot.com',
+    measurementId: 'G-BBPB3RE0Q3',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBZu1jO2h35SpHk_3VsrYIqmcSqL65Dq_w',
-    appId: '1:205885020375:android:5649b6f5ef6861f19a3892',
-    messagingSenderId: '205885020375',
-    projectId: 'displaydht11',
-    databaseURL: 'https://displaydht11-default-rtdb.firebaseio.com',
-    storageBucket: 'displaydht11.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBx-hpFmtD_LvbKYRn9J0BPEdS1FnMZgmI',
-    appId: '1:205885020375:ios:4860f1b61b4c33889a3892',
-    messagingSenderId: '205885020375',
-    projectId: 'displaydht11',
-    databaseURL: 'https://displaydht11-default-rtdb.firebaseio.com',
-    storageBucket: 'displaydht11.appspot.com',
-    iosBundleId: 'com.example.ecasaApp',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBx-hpFmtD_LvbKYRn9J0BPEdS1FnMZgmI',
-    appId: '1:205885020375:ios:8387d52b5dc06a2c9a3892',
-    messagingSenderId: '205885020375',
-    projectId: 'displaydht11',
-    databaseURL: 'https://displaydht11-default-rtdb.firebaseio.com',
-    storageBucket: 'displaydht11.appspot.com',
-    iosBundleId: 'com.example.ecasaApp.RunnerTests',
+    apiKey: 'AIzaSyA-yCEGtZUSeR3oWeZvT19MoXKNHJIE9wc',
+    appId: '1:711821385500:android:03bab75d8c36fc3b7ca4d9',
+    messagingSenderId: '711821385500',
+    projectId: 'ecasa-db',
+    databaseURL: 'https://ecasa-db-default-rtdb.firebaseio.com',
+    storageBucket: 'ecasa-db.appspot.com',
   );
 }

@@ -15,6 +15,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
             'assets/icon/ic_monitor.png',
             width: 30,
             height: 30,
+            fit: BoxFit.contain
           ),
           label: 'Monitoring',
         ),
@@ -23,6 +24,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
             'assets/icon/ic_control.png',
             width: 30,
             height: 30,
+            fit: BoxFit.contain
           ),
           label: 'Control',
         ),

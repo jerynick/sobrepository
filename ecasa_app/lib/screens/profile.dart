@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ecasa_app/buttom_nav.dart';
+import 'package:ecasa_app/screens/login.dart';
 
 
 void main() {
@@ -25,10 +27,39 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   int _selectedIndex = 0;
 
+  String? userEmail;
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _updateUserInfo();
+  }
+
+  Future<void> _updateUserInfo() async {
+    User? user = _auth.currentUser;
+    if (user != null) {
+      setState(() {
+        userEmail = user.email;
+      });
+    }
+  }
+
+  void _logout() async {
+    await _auth.signOut();
+    _updateUserInfo();
+    // Navigasi ke halaman login
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => LoginPage()),
+    );
   }
 
   @override
@@ -96,6 +127,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       Positioned(
                         left: 52,
                         top: 11,
+                        child: GestureDetector(
+                          onTap: _logout,                        
                         child: SizedBox(
                           width: 167,
                           height: 14,
@@ -111,6 +144,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               decoration: TextDecoration.none,
                             ),
                           ),
+                        ),
                         ),
                       ),
                     ],
@@ -145,7 +179,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         child: SizedBox(
                           width: 167,
                           child: Text(
-                            'jerynickolas311@gmail.com',
+                            userEmail ?? 'Not logged in',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.black,
@@ -171,7 +205,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage("assets/icon/ic_pp.png"),
-                      fit: BoxFit.fill,
+                      fit: BoxFit.contain,
                     ),
                   ),
                 ),

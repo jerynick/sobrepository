@@ -10,12 +10,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: FirebaseOptions(
-      apiKey: "AIzaSyBZu1jO2h35SpHk_3VsrYIqmcSqL65Dq_w", 
-      appId: "1:205885020375:android:5649b6f5ef6861f19a3892", 
-      messagingSenderId: "205885020375", 
-      projectId: "displaydht11",
-      storageBucket: "displaydht11.appspot.com",
-      databaseURL: "https://displaydht11-default-rtdb.firebaseio.com/"
+      apiKey: 'AIzaSyA-yCEGtZUSeR3oWeZvT19MoXKNHJIE9wc',
+      appId: '1:711821385500:android:03bab75d8c36fc3b7ca4d9',
+      messagingSenderId: '711821385500',
+      projectId: 'ecasa-db',
+      databaseURL: 'https://ecasa-db-default-rtdb.firebaseio.com',
+      storageBucket: 'ecasa-db.appspot.com',
     ),
   );
 
